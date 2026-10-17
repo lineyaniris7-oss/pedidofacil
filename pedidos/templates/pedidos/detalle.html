@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block titulo %}Pedido {{ pedido.numero_pedido }} - PedidoFácil{% endblock %}
+
+{% block contenido %}
+<div class="row justify-content-center">
+    <div class="col-12 col-md-8 col-lg-6">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h1 class="h4 mb-4">Pedido {{ pedido.numero_pedido }}</h1>
+
+                <dl class="row mb-4">
+                    <dt class="col-sm-5">Cliente</dt>
+                    <dd class="col-sm-7">{{ pedido.cliente }}</dd>
+
+                    <dt class="col-sm-5">Descripción</dt>
+                    <dd class="col-sm-7">{{ pedido.descripcion }}</dd>
+
+                    <dt class="col-sm-5">Valor total</dt>
+                    <dd class="col-sm-7">${{ pedido.valor_total }}</dd>
+
+                    <dt class="col-sm-5">Estado</dt>
+                    <dd class="col-sm-7">
+                        {% if pedido.estado == 'confirmado' %}
+                            <span class="badge text-bg-success">{{ pedido.get_estado_display }}</span>
+                        {% elif pedido.estado == 'cancelado' %}
+                            <span class="badge text-bg-danger">{{ pedido.get_estado_display }}</span>
+                        {% else %}
+                            <span class="badge text-bg-warning">{{ pedido.get_estado_display }}</span>
+                        {% endif %}
+                    </dd>
+
+                    <dt class="col-sm-5">Fecha de registro</dt>
+                    <dd class="col-sm-7">{{ pedido.fecha_registro|date:"d/m/Y H:i" }}</dd>
+
+                    <dt class="col-sm-5">Registrado por</dt>
+                    <dd class="col-sm-7">{{ pedido.usuario.username }}</dd>
+                </dl>
+
+                <form method="post" action="{% url 'pedidos:estado' pedido.id %}" class="row g-2 mb-4">
+                    {% csrf_token %}
+                    <div class="col-8">
+                        <select name="estado" class="form-select">
+                            {% for valor, nombre in estados %}
+                                <option value="{{ valor }}" {% if valor == pedido.estado %}selected{% endif %}>{{ nombre }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-4">
+                        <button type="submit" class="btn btn-secondary w-100">Cambiar estado</button>
+                    </div>
+                </form>
+
+                <div class="d-flex flex-wrap gap-2">
+                    <a href="{% url 'pedidos:editar' pedido.id %}" class="btn btn-primary">Editar</a>
+                    <form method="post" action="{% url 'pedidos:eliminar' pedido.id %}"
+                          onsubmit="return confirm('¿Seguro que quieres eliminar este pedido?');">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                    </form>
+                    <a href="{% url 'pedidos:listado' %}" class="btn btn-outline-secondary">Volver</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

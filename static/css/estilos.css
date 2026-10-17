@@ -1,0 +1,16 @@
+body {
+    background-color: #f4f6f8;
+}
+
+.card {
+    border: 1px solid #d5dbe1;
+}
+
+.table thead th {
+    background-color: #24466b;
+    color: white;
+}
+
+.invalid-feedback {
+    display: block;
+}

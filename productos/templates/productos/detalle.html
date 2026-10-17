@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block titulo %}{{ producto.nombre }} - PedidoFácil{% endblock %}
+
+{% block contenido %}
+<div class="row justify-content-center">
+    <div class="col-12 col-md-8 col-lg-6">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h1 class="h4 mb-4">{{ producto.nombre }}</h1>
+
+                <dl class="row mb-4">
+                    <dt class="col-sm-5">Descripción</dt>
+                    <dd class="col-sm-7">{{ producto.descripcion|default:"Sin descripción" }}</dd>
+
+                    <dt class="col-sm-5">Precio</dt>
+                    <dd class="col-sm-7">${{ producto.precio }}</dd>
+
+                    <dt class="col-sm-5">Cantidad disponible</dt>
+                    <dd class="col-sm-7">{{ producto.cantidad_disponible }}</dd>
+
+                    <dt class="col-sm-5">Fecha de registro</dt>
+                    <dd class="col-sm-7">{{ producto.fecha_registro|date:"d/m/Y H:i" }}</dd>
+                </dl>
+
+                <div class="d-flex flex-wrap gap-2">
+                    <a href="{% url 'productos:editar' producto.id %}" class="btn btn-primary">Editar</a>
+                    <form method="post" action="{% url 'productos:eliminar' producto.id %}"
+                          onsubmit="return confirm('¿Seguro que quieres eliminar este producto?');">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                    </form>
+                    <a href="{% url 'productos:listado' %}" class="btn btn-outline-secondary">Volver</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

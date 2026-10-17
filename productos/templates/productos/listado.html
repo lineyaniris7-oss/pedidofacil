@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block titulo %}Productos - PedidoFácil{% endblock %}
+
+{% block contenido %}
+<div class="d-flex flex-wrap justify-content-between align-items-center mb-3 gap-2">
+    <h1 class="h3 mb-0">Productos</h1>
+    <a href="{% url 'productos:registrar' %}" class="btn btn-warning">+ Nuevo producto</a>
+</div>
+
+<form method="get" class="row g-2 mb-3">
+    <div class="col-12 col-md-6">
+        <input type="text" name="q" value="{{ q }}" class="form-control" placeholder="Buscar por nombre del producto">
+    </div>
+    <div class="col-auto">
+        <button type="submit" class="btn btn-primary">Buscar</button>
+        <a href="{% url 'productos:listado' %}" class="btn btn-outline-secondary">Limpiar</a>
+    </div>
+</form>
+
+{% if productos %}
+<div class="table-responsive">
+    <table class="table table-striped table-hover align-middle bg-white">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Precio</th>
+                <th>Cantidad</th>
+                <th>Fecha de registro</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for producto in productos %}
+            <tr>
+                <td>{{ producto.nombre }}</td>
+                <td>${{ producto.precio }}</td>
+                <td>{{ producto.cantidad_disponible }}</td>
+                <td>{{ producto.fecha_registro|date:"d/m/Y" }}</td>
+                <td>
+                    <a href="{% url 'productos:detalle' producto.id %}" class="btn btn-sm btn-info">Ver</a>
+                    <a href="{% url 'productos:editar' producto.id %}" class="btn btn-sm btn-primary">Editar</a>
+                    <form method="post" action="{% url 'productos:eliminar' producto.id %}" class="d-inline"
+                          onsubmit="return confirm('¿Seguro que quieres eliminar este producto?');">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-sm btn-danger">Eliminar</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<div class="alert alert-secondary">No hay productos para mostrar.</div>
+{% endif %}
+{% endblock %}
