@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block titulo %}{{ titulo }} - PedidoFácil{% endblock %}
 
@@ -31,4 +32,8 @@
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'js/validaciones.js' %}"></script>
 {% endblock %}

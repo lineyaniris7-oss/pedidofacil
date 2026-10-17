@@ -1,80 +1,38 @@
-<!DOCTYPE html>
-<html lang="es">
+{% extends "base.html" %}
 
-<head>
+{% block titulo %}Crear cuenta - PedidoFácil{% endblock %}
 
-    <meta charset="UTF-8">
+{% block contenido %}
+<div class="row justify-content-center">
+    <div class="col-12 col-md-8 col-lg-5">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h1 class="h4 mb-4 text-center">Crear cuenta</h1>
 
-    <title>Registro</title>
+                <form method="post" novalidate>
+                    {% csrf_token %}
 
-</head>
+                    {% for campo in form %}
+                    <div class="mb-3">
+                        <label for="{{ campo.id_for_label }}" class="form-label">{{ campo.label }}</label>
+                        {{ campo }}
+                        {% for error in campo.errors %}
+                            <div class="text-danger small">{{ error }}</div>
+                        {% endfor %}
+                        {% if campo.help_text %}
+                            <div class="form-text ayuda-contrasena">{{ campo.help_text|safe }}</div>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
 
-<body>
+                    <button type="submit" class="btn btn-primary w-100">Registrarme</button>
+                </form>
 
-<h1>Crear cuenta</h1>
-
-{% if error %}
-    <p style="color: red;">
-        {{ error }}
-    </p>
-{% endif %}
-
-<form method="POST">
-
-    {% csrf_token %}
-
-    <p>
-        <label>Usuario:</label><br>
-
-        <input
-            type="text"
-            name="username"
-            required
-        >
-    </p>
-
-    <p>
-        <label>Correo:</label><br>
-
-        <input
-            type="email"
-            name="email"
-            required
-        >
-    </p>
-
-    <p>
-        <label>Contraseña:</label><br>
-
-        <input
-            type="password"
-            name="password1"
-            required
-        >
-    </p>
-
-    <p>
-        <label>Repetir contraseña:</label><br>
-
-        <input
-            type="password"
-            name="password2"
-            required
-        >
-    </p>
-
-    <button type="submit">
-        Registrarme
-    </button>
-
-</form>
-
-<br>
-
-<a href="/usuarios/login/">
-    ¿Ya tienes cuenta? Inicia sesión
-</a>
-
-</body>
-
-</html>
+                <p class="text-center mt-3 mb-0">
+                    ¿Ya tienes cuenta? <a href="{% url 'login' %}">Inicia sesión</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
