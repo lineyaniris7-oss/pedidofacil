@@ -4,7 +4,7 @@ Aplicación web para la **gestión de productos y pedidos**, desarrollada con Dj
 Permite iniciar sesión, administrar un catálogo de productos, registrar pedidos y consultar
 la información, que se guarda en una base de datos PostgreSQL alojada en Neon y se publica en Render.
 
-- **Aplicación publicada:** https://pedidofacil-w1d4.onrender.com
+- **Aplicación publicada:** https://pedidofacil-w1d4.onrender.com/productos/
 - **Repositorio:** https://github.com/lineyaniris7-oss/pedidofacil
 
 > La aplicación está en el plan gratuito de Render: si nadie la ha visitado en un rato,
@@ -155,7 +155,7 @@ python manage.py runserver
 
 ## Despliegue en Render
 
-**Enlace de la aplicación publicada:** https://pedidofacil-w1d4.onrender.com
+**Enlace de la aplicación publicada:** https://pedidofacil-w1d4.onrender.com/productos/
 
 Servicio de tipo **Web Service**, conectado al repositorio de GitHub (rama `main`):
 
